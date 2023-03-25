@@ -1,20 +1,9 @@
-movieList = [
-    {
-        "title": "Movie 1",
-        "year": 2012,
-        "description": "First Movie Description"
-    },
-    {
-        "title": "Movie 2",
-        "year": 2013,
-        "description": "Second Movie Description"
-    },
-    {
-        "title": "Movie 3",
-        "year": 2014,
-        "description": "Third Movie Description"
-    },
-]
+// import movieList from './movies.json' assert { type: 'json' };
+
+var movieList = [];
+fetch('./movies.json')
+    .then((response) => response.json())
+    .then((json) => { movieList = json; movieRender(movieList); });
 
 function reset() {
     movieRender(movieList);
@@ -23,7 +12,8 @@ function reset() {
 function search() {
     let movieName = document.getElementById("movie-input").value;
 
-    newMovieList = movieList.filter((movie) => movie.title == movieName);
+    let newMovieList = movieList.filter((movie) => movie.title == movieName);
+
     movieRender(newMovieList);
 }
 
@@ -49,7 +39,9 @@ function showDetails(movieEle) {
 }
 
 function movieRender(movieList) {
+    const movieDiv = document.getElementById("movie");
     let movieTemplate = ``;
+
     if (movieList.length <= 0) {
         movieTemplate = `No movies found! Please try again...`;
     }
@@ -60,8 +52,5 @@ function movieRender(movieList) {
             </div>`;
         }
     }
-    const movieDiv = document.getElementById("movie");
     movieDiv.innerHTML = movieTemplate;
 }
-
-movieRender(movieList);
